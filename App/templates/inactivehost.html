@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Inventory</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<body>
+    <main class="container">
+        <header class="row">
+            <div class="col-md-6 text-left text-uppercase">
+                <h1 class="title">INACTIVE HOSTS</h1>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                <form action="" class="search-form">
+                    <div class="form-group has-feedback">
+                        <label for="search" class="sr-only">Search</label>
+                        <input type="text" class="form-control" name="search" id="search" placeholder="search host id">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+              <div class="cold-md-12">
+                  <hr class="line-tkick">
+              </div>
+            </div>
+        </header>
+    </main>
+    <table>
+        {% for item in items %}
+        <tr>
+            <td>{{ id }}</td>
+            <td>{{ hostname }}</td>
+            <td>{{ host_alias }}</td>
+            <td>{{ hostgroup }}</td>
+            <td>{{ ipv4 }}</td>
+            <td>{{ ipv6 }}</td>
+            <td>{{ os }}</td>
+            <td>{{ os_type }}</td>
+            <td>{{ os_release }}</td>
+            <td>{{ ssh_port }}</td>
+            <td>{{ ssh_user }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

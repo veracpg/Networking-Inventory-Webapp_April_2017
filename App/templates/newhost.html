@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Inventory</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+<body>
+    <main class="container">
+        <header class="row">
+            <div class="col-md-6 text-left text-uppercase">
+                <h1 class="title">ADD NEW HOST</h1>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                <form action="" class="search-form">
+                    <div class="form-group has-feedback">
+                        <label for="search" class="sr-only">Search</label>
+                        <input type="text" class="form-control" name="search" id="search" placeholder="search host id">
+                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+              <div class="cold-md-12">
+                  <hr class="line-tkick">
+              </div>
+            </div>
+        </header>
+    </main>
+    <br>
+    <div id="addform" class="container">
+        <div class="col-lg-4">
+            {% if error %}
+                <p class="error"><strong>Error:</strong> {{ error }}</p>
+            {% endif %}
+            <form action="{{url_for('newHost')}}" method="POST">
+                <input type="text" name="hostname" placeholder="Host Name" value=""/>{{ hostname }}<br>
+                <input type="text" name="host_alias" placeholder="Host Alias" value=""/><br>
+                <input type="text" name="ipv4" placeholder="IPv4" value=""/>{{ ipv4 }}<br>
+                <input type="text" name="ipv6" placeholder="IPv6" value=""/><br>
+                <input type="text" name="hostgroup" placeholder="Host Group" value=""/><br>
+                <input type="text" name="ssh_port" placeholder="SSH Port" value=""/><br>
+                <input type="text" name="ssh_user" placeholder="SSH User" value=""/><br>
+                <input type="submit" value="ADD"/>
+            </form>
+        </div>
+</body>
+</html>

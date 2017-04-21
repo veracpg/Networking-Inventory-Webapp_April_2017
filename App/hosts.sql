@@ -22,7 +22,7 @@ CREATE TABLE
         host_alias CHARACTER VARYING(128),
         hostgroup CHARACTER VARYING(128),
         ipv4 INET NOT NULL,
-        ipv6 INET,
+        ipv6 INET DEFAULT '2001:DB8:2222:7744::/64',
         os CHARACTER VARYING(128),
         os_type CHARACTER VARYING(128),
         os_release CHARACTER VARYING(128),
@@ -39,13 +39,13 @@ CREATE TABLE
 
 INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
 VALUES ('BF-C33NL', null, 'blazingfast', '85.151.2.83', null,
-                    'linux', 'CentOS', '6.7', '22', 'root', true);
+                    'linux', 'CentOS', '6.7', '22', 'root', false);
 INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
 VALUES ('BF-C37NL', null, 'blazingfast', '85.151.2.78', null,
-                    'linux', 'CentOS', '6.7', '22', 'root', true);
+                    'linux', 'CentOS', '6.7', '22', 'root', false);
 INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
 VALUES ('BF-C4NL', null, 'blazingfast', '85.151.2.30', null,
-                   'linux', 'CentOS', '6.7', '22', 'root', true);
+                   'linux', 'CentOS', '6.7', '22', 'root', false);
 INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
 VALUES ('BF-C5P', null, 'blazingfast', '85.151.2.173', null,
                   'linux', 'Ubuntu', '16.04', '22', 'root', true);

@@ -30,23 +30,44 @@
               </div>
             </div>
         </header>
+        <table class = "table">
+            <tr>
+                <td> <a href="{{ url_for('newHost') }}"><h3 class="text-uppercase">New Host</h3></a></td>
+                <td><a href="{{ url_for('showActiveHosts') }}"><h3 class="text-uppercase">Active Hosts</h3></a></td>
+            </tr>
+        </table>
+        <table class = "table">
+                    <tr>
+                        <th>ID </th>
+                        <th>HOST NAME</th>
+                        <th>HOST ALIAS</th>
+                        <th>HOST GROUP</th>
+                        <th>IPV4</th>
+                        <th>IPV6</th>
+                        <th>OS</th>
+                        <th>OS TYPE</th>
+                        <th>OS RELEASE</th>
+                        <th>SSH PORT</th>
+                        <th>SSH USER</th>
+                    </tr>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4]}}</td>
+                        <td>{{ row[5] }}</td>
+                        <td>{{ row[6] }}</td>
+                        <td>{{ row[7] }}</td>
+                        <td>{{ row[8] }}</td>
+                        <td>{{ row[9] }}</td>
+                        <td>{{ row[10] }}</td>
+                        <td><a href="{{ url_for('editHost') }}"> <input type="button" value="Edit"></a></td>
+                        <td><a href="{{ url_for('deleteHost') }}"> <input type="button" value="Delete"></a></td>
+                    </tr>
+                    {% endfor %}
+            </table>
     </main>
-    <table>
-        {% for item in items %}
-        <tr>
-            <td>{{ id }}</td>
-            <td>{{ hostname }}</td>
-            <td>{{ host_alias }}</td>
-            <td>{{ hostgroup }}</td>
-            <td>{{ ipv4 }}</td>
-            <td>{{ ipv6 }}</td>
-            <td>{{ os }}</td>
-            <td>{{ os_type }}</td>
-            <td>{{ os_release }}</td>
-            <td>{{ ssh_port }}</td>
-            <td>{{ ssh_user }}</td>
-        </tr>
-        {% endfor %}
-    </table>
 </body>
 </html>

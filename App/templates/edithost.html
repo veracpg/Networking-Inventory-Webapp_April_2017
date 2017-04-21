@@ -12,7 +12,7 @@
     <main class="container">
         <header class="row">
             <div class="col-md-6 text-left text-uppercase">
-                <h1 class="title">ADD NEW Host</h1>
+                <h1 class="title">EDIT HOST</h1>
             </div>
             <div class="col-md-4 col-md-offset-1">
                 <form action="" class="search-form">
@@ -29,27 +29,43 @@
               </div>
             </div>
         </header>
+        <table class = "table">
+            <tr>
+                <td><a href="{{ url_for('newHost') }}"><h3 class="text-uppercase">Add New Host</h3></a></td>
+                <td> <a href="{{ url_for('showActiveHosts') }}"><h3 class="text-uppercase">List Active Hosts</h3></a></td>
+                <td><a href="{{ url_for('showInactiveHosts') }}"><h3 class="text-uppercase">List Inactive Hosts</h3></a></td>
+            </tr>
+        </table>
     </main>
-    <br>
-    <div id="addform" class="container">
-        <div class="col-lg-4">
-            <form action="{{url_for('newHost')}}" method="POST">
-                <input type="text" name="Host Name" placeholder="Host Name" value=""/><br>
-                <input type="text" name="Host Alias" placeholder="Host Alias" value=""/><br>
-                <input type="text" name="IPv4" placeholder="IPv4d" value=""/><br>
-                <input type="text" name="IPv6" placeholder="IPv6" value=""/><br>
-                <input type="text" name="Host Group" placeholder="Host Group" value=""/><br>
-                <input type="text" name="SSH Port" placeholder="SSH Port" value=""/><br>
-                <input type="text" name="SSH User" placeholder="SSH User" value=""/><br>
+     <div id="addform" class="container">
+        <div class="col-lg-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul style="color: red">
+                        {% for message in messages %}
+                            <li><strong>{{ message[1] }}</strong></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        <br>
+            <form action="{{url_for('editHost')}}" method="POST">
+                <input type ='text' size ='50' name='hostname' value="" placeholder={{ id[1] }}><br><br>
+                <input type ='text' size ='50' name='host_alias' value="" placeholder={{ id[2] }}><br><br>
+                <input type ='text' size ='50' name='hostgroup' value="" placeholder={{ id[3] }}><br><br>
+                <input type ='text' size ='50' name='ipv4' value="" placeholder={{ id[4] }}><br><br>
+                <input type ='text' size ='50' name='ipv6' value="" placeholder={{ id[5] }}><br><br>
+                <input type ='text' size ='50' name='os' value="" placeholder={{ id[6] }}><br><br>
+                <input type ='text' size ='50' name='os_type' value="" placeholder={{ id[7] }}><br><br>
+                <input type ='text' size ='50' name='os_release' value="" placeholder={{ id[8] }}><br><br>
+                <input type ='text' size ='50' name='ssh_port' value="" placeholder={{ id[9] }}><br><br>
+                <input type ='text' size ='50' name='ssh_user' value="" placeholder={{ id[10] }}><br><br>
+                <input type ='text' size ='50' name='active' value="" placeholder={{ id[11] }}><br><br>
+                <input type="submit" value="Update"><br><br>
             </form>
-        </div>
-    </div>
-    <div class="container"
-        <div class="col-lg-4">
-            <input type="submit" value="EDIT"/><br>
-            <input type="submit" value="Cancel"/>
-        </div>
-    </div>
+                <a href="{{ url_for('showHome')}}"> <input type="submit" value="Cancel"></a>
 
+        </div>
+    </div>
 </body>
 </html>

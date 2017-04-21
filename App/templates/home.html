@@ -31,22 +31,13 @@
               </div>
             </div>
         </header>
-    </main>
-    <div class="container">
-        <section id="host-links" class="row">
-            <div class="row">
-                <article class = "col-lg-4">
-                    <a href="{{ url_for('newHost') }}"><h3 class="text-uppercase">Add New Host</h3></a>
-                </article>
-                <article class="col-lg-4">
-                    <a href="{{ url_for('showActiveHosts') }}"><h3 class="text-uppercase">List Active Hosts</h3></a>
-                </article>
-                <article class="col-lg-4">
-                    <a href="{{ url_for('showInactiveHosts') }}"><h3 class="text-uppercase">List Inactive Hosts</h3></a>
-                </article>
-            </div>
-        </section>
-    </div>
+        <table class = "table">
+            <tr>
+                <td><a href="{{ url_for('newHost') }}"><h3 class="text-uppercase">New Host</h3></a></td>
+                <td> <a href="{{ url_for('showActiveHosts') }}"><h3 class="text-uppercase">Active Hosts</h3></a></td>
+                <td><a href="{{ url_for('showInactiveHosts') }}"><h3 class="text-uppercase">Inactive Hosts</h3></a></td>
+            </tr>
+        </table>
     </main>
 </body>
 </html>

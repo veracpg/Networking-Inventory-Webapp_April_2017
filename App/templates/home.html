@@ -13,31 +13,50 @@
 <body>
     <main class="container">
         <header class="row">
-            <div class="col-md-6 text-left text-uppercase">
-                <h1 class="title">NETWORK INVENTORY</h1>
-            </div>
-            <div class="col-md-4 col-md-offset-1">
-                <form action="" class="search-form">
-                    <div class="form-group has-feedback">
-                        <label for="search" class="sr-only">Search</label>
-                        <input type="text" class="form-control" name="search" id="search" placeholder="search host id">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
-              <div class="cold-md-12">
-                  <hr class="line-tkick">
-              </div>
+            <div class="col-lg-10"></div>
+            <div class="col-md-2 text-center text-uppercase">
+              <ul class="breadcrumb">
+                <li><a href="{{ url_for('showLogin') }}">Log in</a></li>
+              </ul>
             </div>
         </header>
-        <table class = "table">
-            <tr>
-                <td><a href="{{ url_for('newHost') }}"><h3 class="text-uppercase">New Host</h3></a></td>
-                <td> <a href="{{ url_for('showActiveHosts') }}"><h3 class="text-uppercase">Active Hosts</h3></a></td>
-                <td><a href="{{ url_for('showInactiveHosts') }}"><h3 class="text-uppercase">Inactive Hosts</h3></a></td>
-            </tr>
-        </table>
     </main>
+    <div class="row">
+         <div class="col-lg-12">
+            <h1 class="title" style="margin-left: 5%; background: rgba(192,192,192,0.56)">NETWORK INVENTORY</h1>
+            <br>
+            <br>
+            <img src="static/Image/Home-page.jpg" style="width: 100%;" alt="home image">
+        </div>
+    </div>
+    <main class="container">
+        <section class="row">
+            <br>
+            <br>
+              <article class="col-md-4">
+                <a href="#"><h3 class="text-uppercase">Active Hosts</h3></a>
+                <p class="text-align">Pull Active Hosts - and computer details on your scanned machines
+                    to get a complete overview of your entire active network.</p>
+              </article>
+              <article class="col-md-4">
+                <a href="https://github.com/veracpg"><h3 class="text-uppercase">Inactive Hosts</h3></a>
+                <p class="text-align">Pull Inactive Hosts - and computer details on your scanned machines
+                    to get a complete overview of your entire active network</p>
+              </article>
+              <article class="col-md-4">
+                <a href="https://github.com/veracpg"><h3 class="text-uppercase">Add Host</h3></a>
+                <p class="text-align">Create new hosts, delete and update on a specific asset
+                    through the built-in host network.</p>
+              </article>
+        </section>
+    </main>
+    <br>
+    <br>
+    <footer class="container-fluid" style="text-align: center; color: #8c8c8c">
+        <div class="col-md-12 footer">
+          <p>"Build a Catalog", Udacity Project</p>
+          <p>By Vera G.</p>
+        </div>
+    </footer>
 </body>
 </html>

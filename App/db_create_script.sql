@@ -1,3 +1,4 @@
+
 -- Drop Database if exists before starting test
 
 DROP DATABASE IF EXISTS hosts;

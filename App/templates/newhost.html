@@ -10,33 +10,23 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
-    <main class="container">
+   <main class="container">
         <header class="row">
-            <div class="col-md-6 text-left text-uppercase">
-                <h1 class="title">CREATE NEW HOST</h1>
-            </div>
-            <div class="col-md-4 col-md-offset-1">
-                <form action="" class="search-form">
-                    <div class="form-group has-feedback">
-                        <label for="search" class="sr-only">Search</label>
-                        <input type="text" class="form-control" name="search" id="search" placeholder="search host id">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
-              <div class="cold-md-12">
-                  <hr class="line-tkick">
-              </div>
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2 text-right">
+                 <a href="{{ url_for('showActiveHosts') }}">
+                    <span class="glyphicon glyphicon-remove-circle" style="font-size:32px; color: silver;"></span>
+                 </a>
             </div>
         </header>
-        <table class = "table">
-            <tr>
-                <td> <a href="{{ url_for('showActiveHosts') }}"><h3 class="text-uppercase">List Active Hosts</h3></a></td>
-                <td><a href="{{ url_for('showInactiveHosts') }}"><h3 class="text-uppercase">List Inactive Hosts</h3></a></td>
-            </tr>
-        </table>
-    </main>
+    </main><br>
+        <div class="row">
+         <div class="col-lg-12">
+            <h1 class="title" style="margin-left: 5%; background: rgba(192,192,192,0.56)">ADD TO NETWORK INVENTORY</h1>
+            <br>
+            <br>
+            </div>
+        </div>
     <br>
     <div id="addform" class="container">
         <div class="col-lg-12">
@@ -49,22 +39,32 @@
                     </ul>
                 {% endif %}
             {% endwith %}
-        <br>
-            <form action="{{url_for('newHost')}}" method="post">
-                <input type ='text' size ='50' name='hostname' value="" placeholder="Host Name"><br><br>
-                <input type ='text' size ='50' name='host_alias' value="" placeholder="Host Alias"><br><br>
-                <input type ='text' size ='50' name='hostgroup' value="" placeholder="Host Group"><br><br>
-                <input type ='text' size ='50' name='ipv4' value="" placeholder="IPV4"><br><br>
-                <input type ='text' size ='50' name='ipv6' value="" placeholder="IPV6"><br><br>
-                <input type ='text' size ='50' name='os' value="" placeholder="OS"><br><br>
-                <input type ='text' size ='50' name='os_type' value="" placeholder="OS Type"><br><br>
-                <input type ='text' size ='50' name='os_release' value="" placeholder="OS Release"><br><br>
-                <input type ='text' size ='50' name='ssh_port' value="" placeholder="SSH Port"><br><br>
-                <input type ='text' size ='50' name='ssh_user' value="" placeholder="SSH User"><br><br>
-                <input type ='text' size ='50' name='active' value="" placeholder="Active"><br><br>
-                <input type="submit" value="Create">
-            </form>
         </div>
     </div>
+    <br>
+    <form style="margin-left: 10%">
+                <input type ='text' size ='100' name='hostname' value="" placeholder="Host Name"><br><br>
+                <input type ='text' size ='100' name='host_alias' value="" placeholder="Host Alias"><br><br>
+                <input type ='text' size ='100' name='hostgroup' value="" placeholder="Host Group"><br><br>
+                <input type ='text' size ='100' name='ipv4' value="" placeholder="IPV4"><br><br>
+                <input type ='text' size ='100' name='ipv6' value="" placeholder="IPV6"><br><br>
+                <input type ='text' size ='100' name='os' value="" placeholder="OS"><br><br>
+                <input type ='text' size ='100' name='os_type' value="" placeholder="OS Type"><br><br>
+                <input type ='text' size ='100' name='os_release' value="" placeholder="OS Release"><br><br>
+                <input type ='text' size ='100' name='ssh_port' value="" placeholder="SSH Port"><br><br>
+                <input type ='text' size ='100' name='ssh_user' value="" placeholder="SSH User"><br><br>
+                <input type ='text' size ='100' name='active' value="" placeholder="Active"><br><br>
+                <input type="submit" value="Create">
+    </form>
+    <br>
+    <br>
+    <br>
 </body>
+    <footer class="container-fluid" style="text-align: center; color: #8c8c8c">
+        <div class="col-md-12 footer">
+          <p>"Build a Catalog", Udacity Project</p>
+          <p>By Vera G.</p>
+        </div>
+    </footer>
+
 </html>

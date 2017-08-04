@@ -8,13 +8,14 @@ import jinja2
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import session as login_session
-from flask import make_response
-from flask import jsonify
+from flask import make_response, jsonify
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_connector import Base, Host
+
+# App Configuration
 
 CLIENT_ID = json.loads(
     open('client_secrets.json','r').read())['web']['client_id']
@@ -24,18 +25,32 @@ APPLICATION_NAME = "Inventory webapp"
 app = Flask(__name__)
 
 # Connect to Database
+
+
 engine = create_engine('postgresql:///hosts')
 Base.metadata.create_all(engine)
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# Routes
 
 @app.route('/')
 @app.route('/host')
 def showHome():
-    # Landing Page ( 3 links to newHost(), showActiveHosts() & showInactiveHosts)
+    # Landing Page 
     return render_template('home.html')
+
+# JSON APIs read  NET info
+
+@app.route('/host/JSON',  methods=['GET', 'POST'])
+def getNet():
+    # Return JSON version of the Network
+    output_json = []
+    rows = session.query(Host).all()
+    return jsonify (rows=[r.serialize for r in rows ])
+
+# Login Oauth2 Google 
 
 @app.route('/login', methods=['POST','GET'])
 def showLogin():
@@ -164,28 +179,28 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+# Create a new host
+
 @app.route('/host/add', methods=['GET', 'POST'])
 def newHost():
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST':
-        addhost = newHost(hostname=request.form.get('hostname'),
-                        host_alias = request.form.get('host_alias'),
-                        hostgroup = request.form.get('hostgroup'),
-                        ipv4 = request.form.get('ipv4'),
-                        ipv6 = request.form.get('ipv6'),
-                        os = request.form.get('os'),
-                        os_type = request.form.get('os_type'),
-                        os_release = request.form.get('os_release'),
-                        ssh_port = request.form.get('ssh_port'),
-                        ssh_user = request.form.get('ssh_user'),
-                        active = request.form.get('active'))
-        session.add(addhost)
+        newHost = Host(id=[],
+                        hostname = request.form['hostname'],
+                        host_alias = request.form['host_alias'],
+                        hostgroup = request.form['hostgroup'],
+                        ipv4 = request.form['ipv4'],
+                        ipv6 = request.form['ipv6'],
+                        os = request.form['os'],
+                        os_type = request.form['os_type'],
+                        os_release = request.form['os_release'],
+                        ssh_port = request.form['ssh_port'],
+                        ssh_user = request.form['ssh_user'],
+                        active = request.form['active'])
+        session.add(newHost)
         session.commit()
         return redirect(url_for('showActiveHosts'))
 
     else:
-        flash('All the form fields are required')
         return render_template('newhost.html')
 
 

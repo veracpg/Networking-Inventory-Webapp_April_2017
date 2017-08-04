@@ -42,7 +42,7 @@
         </div>
     </div>
     <br>
-    <form style="margin-left: 10%">
+    <form action = '{{url_for('newHost')}}'' method = 'POST' style="margin-left: 10%">
                 <input type ='text' size ='100' name='hostname' value="" placeholder="Host Name"><br><br>
                 <input type ='text' size ='100' name='host_alias' value="" placeholder="Host Alias"><br><br>
                 <input type ='text' size ='100' name='hostgroup' value="" placeholder="Host Group"><br><br>
@@ -54,7 +54,7 @@
                 <input type ='text' size ='100' name='ssh_port' value="" placeholder="SSH Port"><br><br>
                 <input type ='text' size ='100' name='ssh_user' value="" placeholder="SSH User"><br><br>
                 <input type ='text' size ='100' name='active' value="" placeholder="Active"><br><br>
-                <input type="submit" value="Create">
+                <input type="submit" value="add">
     </form>
     <br>
     <br>

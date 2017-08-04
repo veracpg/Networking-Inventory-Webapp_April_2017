@@ -42,29 +42,23 @@ class Host(Base):
                       'ssh_user':ssh_user,
                       'active':active,
                       }
-
-    def __getitem__(self, item):
-        return self.host_id[item]
-
+    @property
+    def serialize(self):
+    # return object data in easily serializeable format
+        return {
+            'id':self.id,
+            'hostname':self.hostname,
+            'hostgroup':self.hostgroup,
+            'ipv4':self.ipv4,
+            'ssh_port':self.ssh_port,
+            'ssh_user':self.ssh_user,
+            'active':self.active,}
 
 def loadSession():
     metadata = Base.metadata
     Session = sessionmaker(bind=engine)
     session = Session()
     return session
-
-@property
-def serialize(self):
-    # return object data in easily serializeable format
-    return{
-        'id':self.id,
-        'hostname':self.hostname,
-        'hostgroup':self.hostgroup,
-        'ipv4':self.ipv4,
-        'ssh_port':self.ssh_port,
-        'ssh_user':self.ssh_user,
-        'active':self.active
-    }
 
 
 if __name__ == '__main__':

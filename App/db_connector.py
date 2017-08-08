@@ -1,10 +1,9 @@
 from sqlalchemy import Column, Integer, String
-
 from sqlalchemy.ext.declarative import declarative_base
-
 from sqlalchemy.orm import sessionmaker
-
 from sqlalchemy import create_engine
+
+from sqlalchemy.dialects.postgresql import *
 
 engine = create_engine('postgresql:///hosts')
 
@@ -15,33 +14,20 @@ class Host(Base):
     __tablename__ = 'host'
 
     id = Column(Integer, primary_key=True)
-    hostname = Column(String)
-    host_alias = Column(String)
-    hostgroup = Column(String)
-    ipv4 = Column(Integer)
-    ipv6 = Column(Integer)
-    os = Column(String)
-    os_type = Column(String)
-    os_release = Column(String)
-    ssh_port = Column(Integer)
-    ssh_user = Column(String)
-    active = Column(String)
+    hostname = Column(VARCHAR(128))
+    host_alias = Column(VARCHAR(128))
+    hostgroup = Column(VARCHAR(128))
+    ipv4 = Column(INET)
+    ipv6 = Column(VARCHAR(128))
+    os = Column(VARCHAR(128))
+    os_type = Column(VARCHAR(128))
+    os_release = Column(VARCHAR(128))
+    ssh_port = Column(VARCHAR(128))
+    ssh_user = Column(VARCHAR(128))
+    active = Column(BOOLEAN)
 
+    
 
-    def __init__(self, id, hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type,os_release,ssh_port, ssh_user, active):
-       self.host_id ={'id':id,
-                      'hostname':hostname,
-                      'host_alias':host_alias,
-                      'hostgroup':hostgroup,
-                      'ipv4':ipv4,
-                      'ipv6':ipv6,
-                      'os':os,
-                      'os_type':os_type,
-                      'os_release':os_release,
-                      'ssh_port':ssh_port,
-                      'ssh_user':ssh_user,
-                      'active':active,
-                      }
     @property
     def serialize(self):
     # return object data in easily serializeable format

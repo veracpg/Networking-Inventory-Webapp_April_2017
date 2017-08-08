@@ -183,26 +183,25 @@ def gdisconnect():
 
 @app.route('/host/add', methods=['GET', 'POST'])
 def newHost():
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
-        newHost = Host(id=[],
-                        hostname = request.form['hostname'],
-                        host_alias = request.form['host_alias'],
-                        hostgroup = request.form['hostgroup'],
-                        ipv4 = request.form['ipv4'],
-                        ipv6 = request.form['ipv6'],
-                        os = request.form['os'],
-                        os_type = request.form['os_type'],
-                        os_release = request.form['os_release'],
-                        ssh_port = request.form['ssh_port'],
-                        ssh_user = request.form['ssh_user'],
-                        active = request.form['active'])
+        newHost = Host(hostname = request.form.get('hostname'),
+                        host_alias = request.form.get('host_alias'),
+                        hostgroup = request.form.get('hostgroup'),
+                        ipv4 = request.form.get('ipv4'),
+                        ipv6 = request.form.get('ipv6'),
+                        os = request.form.get('os'),
+                        os_type = request.form.get('os_type'),
+                        os_release = request.form.get('os_release'),
+                        ssh_port = request.form.get('ssh_port'),
+                        ssh_user = request.form.get('ssh_user'),
+                        active = request.form.get('active'))
         session.add(newHost)
         session.commit()
         return redirect(url_for('showActiveHosts'))
-
     else:
         return render_template('newhost.html')
-
 
 @app.route('/host/active', methods=['GET', 'POST'])
 def showActiveHosts():
@@ -216,24 +215,20 @@ def editHost(host):
     if 'username' not in login_session:
         return redirect('/login')
     editedHost= session.query(Host).filter_by(id=host).one()
-    print editedHost
     if request.method =='POST':
         if request.form['hostname','host_alias','hostgroup','ipv4', 'ipv6', 'os', 'os_type','os_release', 'ssh_port',
                         '.ssh_user','active']:
-             editedHost(hostname = request.form.get['hostname'],
-                                 host_alias = request.form.get['host_alias'],
-                                 hostgroup = request.form.get['hostgroup'],
-                                 ipv4 = request.form.get['ipv4'],
-                                 ipv6 = request.form.get['ipv6'],
-                                 os = request.form.get['os'],
-                                 os_type = request.form.get['os_type'],
-                                 os_release = request.form.get['os_release'],
-                                 ssh_port = request.form.get['ssh_port'],
-                                 ssh_user = request.form.get['ssh_user'],
-                                 active = request.form.get['active'])
-        print editedHost
-        session.add(editedHost)
-        session.commit()
+                        editedHost.hostname = request.form['hostname']
+                        editedHost.host_alias = request.form['host_alias']
+                        editedHost.hostgroup = request.form['hostgroup']
+                        editedHost.ipv4 = request.form['ipv4']
+                        editedHost.ipv6 = request.form['ipv6']
+                        editedHost.os = request.form['os']
+                        editedHost.os_type = request.form['os_type']
+                        editedHost.os_release = request.form['os_release']
+                        editedHost.ssh_port = request.form['ssh_port']
+                        editedHost.ssh_user = request.form['ssh_user']
+                        editedHost.active = request.form['active']
         return redirect(url_for('showActiveHosts', row=editedHost))
     else:
         return render_template('edithost.html', row = editedHost)

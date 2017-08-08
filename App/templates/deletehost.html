@@ -46,7 +46,7 @@
                 <form action="{{url_for('deleteHost', host=row.id)}}" method="post">
                 <input type="submit" value="Delete" style="font-size: 28px; background-color: red; color: white">
                 </form>
-                <a href="{{ url_for('showHome') }}"> <input type="button" value="Cancel" style="font-size: 28px"></a></td>
+                <a href="{{ url_for('showInactiveHosts') }}"> <input type="button" value="Cancel" style="font-size: 28px"></a></td>
             </table>
        </div>
    </div>

@@ -38,7 +38,7 @@ session = DBSession()
 @app.route('/')
 @app.route('/host')
 def showHome():
-    # Landing Page 
+    # Landing Page
     return render_template('home.html')
 
 # JSON APIs read  NET info
@@ -50,7 +50,7 @@ def getNet():
     rows = session.query(Host).all()
     return jsonify (rows=[r.serialize for r in rows ])
 
-# Login Oauth2 Google 
+# Login Oauth2 Google
 
 @app.route('/login', methods=['POST','GET'])
 def showLogin():
@@ -150,7 +150,7 @@ def gdisconnect():
         response = make_response(json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-        
+
     access_token = login_session.get('access_token')
     if access_token is None:
         print 'Access Token is None'
@@ -214,23 +214,40 @@ def showActiveHosts():
 def editHost(host):
     if 'username' not in login_session:
         return redirect('/login')
-    editedHost= session.query(Host).filter_by(id=host).one()
+
+    editedHost= session.query(Host).filter_by(id=host).one_or_none()
+
+    if editedHost == None:
+        return redirect("/host?invalid_host=true")
+
     if request.method =='POST':
-        if request.form['hostname','host_alias','hostgroup','ipv4', 'ipv6', 'os', 'os_type','os_release', 'ssh_port',
-                        '.ssh_user','active']:
-                        editedHost.hostname = request.form['hostname']
-                        editedHost.host_alias = request.form['host_alias']
-                        editedHost.hostgroup = request.form['hostgroup']
-                        editedHost.ipv4 = request.form['ipv4']
-                        editedHost.ipv6 = request.form['ipv6']
-                        editedHost.os = request.form['os']
-                        editedHost.os_type = request.form['os_type']
-                        editedHost.os_release = request.form['os_release']
-                        editedHost.ssh_port = request.form['ssh_port']
-                        editedHost.ssh_user = request.form['ssh_user']
-                        editedHost.active = request.form['active']
-        return redirect(url_for('showActiveHosts', row=editedHost))
+        print "POST"
+        if request.form['hostname'] and request.form['host_alias'] and \
+            request.form['hostgroup'] and request.form['ipv4'] and \
+            request.form['ipv6'] and request.form['os'] and \
+            request.form['os_type'] and request.form['os_release'] and \
+            request.form['ssh_port'] and request.form['ssh_user'] and \
+            request.form['active']:
+            print "Everything present"
+            # Every row is present in the request
+            editedHost.hostname = request.form['hostname']
+            editedHost.host_alias = request.form['host_alias']
+            editedHost.hostgroup = request.form['hostgroup']
+            editedHost.ipv4 = request.form['ipv4']
+            editedHost.ipv6 = request.form['ipv6']
+            editedHost.os = request.form['os']
+            editedHost.os_type = request.form['os_type']
+            editedHost.os_release = request.form['os_release']
+            editedHost.ssh_port = request.form['ssh_port']
+            editedHost.ssh_user = request.form['ssh_user']
+            editedHost.active = request.form['active']
+            session.add(editedHost)
+            session.commit()
+            return redirect(url_for('showActiveHosts'))
+        else:
+            return redirect("/host?updated=false")
     else:
+        print "GET"
         return render_template('edithost.html', row = editedHost)
 
 

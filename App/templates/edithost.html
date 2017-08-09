@@ -50,6 +50,7 @@
                 {% endif %}
             {% endwith %}
         <br>
+<<<<<<< Updated upstream
             <form method="POST">
                 <input type ='text' size ='100' name='hostname' value="{{ row.hostname }}" placeholder={{ row.hostname }}><br><br>
                 <input type ='text' size ='100' name='host_alias' value="{{ row.host_alias}}" placeholder={{ row.host_alias }}><br><br>
@@ -62,6 +63,33 @@
                 <input type ='text' size ='100' name='ssh_port' value="{{ row.ssh_port }}" placeholder={{ row.ssh_port }}><br><br>
                 <input type ='text' size ='100' name='ssh_user' value="{{ row.ssh_user }}" placeholder={{ row.ssh_user }}><br><br>
                 <input type ='text' size ='100' name='active' value="{{ row.active }}" placeholder={{ row.active }}><br><br>
+||||||| merged common ancestors
+            <form name= "form1" action="{{url_for('showActiveHosts')}}" method="POST">
+                <input type ='text' size ='100' name='hostname' value="" placeholder={{ row.hostname }}><br><br>
+                <input type ='text' size ='100' name='host_alias' value="" placeholder={{ row.host_alias }}><br><br>
+                <input type ='text' size ='100' name='hostgroup' value="" placeholder={{ row.hostgroup }}><br><br>
+                <input type ='text' size ='100' name='ipv4' value="" placeholder={{ row.ipv4 }}><br><br>
+                <input type ='text' size ='100' name='ipv6' value="" placeholder={{ row.ipv6  }}><br><br>
+                <input type ='text' size ='100' name='os' value="" placeholder={{ row.os }}><br><br>
+                <input type ='text' size ='100' name='os_type' value="" placeholder={{ row.os_type }}><br><br>
+                <input type ='text' size ='100' name='os_release' value="" placeholder={{ row.os_release }}><br><br>
+                <input type ='text' size ='100' name='ssh_port' value="" placeholder={{ row.ssh_port }}><br><br>
+                <input type ='text' size ='100' name='ssh_user' value="" placeholder={{ row.ssh_user }}><br><br>
+                <input type ='text' size ='100' name='active' value="" placeholder={{ row.active }}><br><br>
+=======
+            <form method="POST">
+                <input type ='text' size ='100' name='hostname' value="{{ row.hostname }}" placeholder={{ row.hostname }}><br><br>
+                <input type ='text' size ='100' name='host_alias' value="{{ row.host_alias }}" placeholder={{ row.host_alias }}><br><br>
+                <input type ='text' size ='100' name='hostgroup' value="{{ row.hostgroup }}" placeholder={{ row.hostgroup }}><br><br>
+                <input type ='text' size ='100' name='ipv4' value="{{ row.ipv4 }}" placeholder={{ row.ipv4 }}><br><br>
+                <input type ='text' size ='100' name='ipv6' value="{{ row.ipv6  }}" placeholder={{ row.ipv6  }}><br><br>
+                <input type ='text' size ='100' name='os' value="{{ row.os }}" placeholder={{ row.os }}><br><br>
+                <input type ='text' size ='100' name='os_type' value="{{ row.os_type }}" placeholder={{ row.os_type }}><br><br>
+                <input type ='text' size ='100' name='os_release' value="{{ row.os_release }}" placeholder={{ row.os_release }}><br><br>
+                <input type ='text' size ='100' name='ssh_port' value="{{ row.ssh_port }}" placeholder={{ row.ssh_port }}><br><br>
+                <input type ='text' size ='100' name='ssh_user' value="{{ row.ssh_user }}" placeholder={{ row.ssh_user }}><br><br>
+                <input type ='text' size ='100' name='active' value="{{ row.active }}" placeholder={{ row.active }}><br><br>
+>>>>>>> Stashed changes
                 <input type="submit" value="Update" style="font-size: 18px"><br><br>
                 <a href="{{ url_for('showHome')}}"> <input type="submit" value="Cancel" style="font-size: 18px"></a>
             </form>

@@ -214,12 +214,23 @@ def showActiveHosts():
 def editHost(host):
     if 'username' not in login_session:
         return redirect('/login')
+<<<<<<< Updated upstream
 
     editedHost= session.query(Host).filter_by(id=host).one_or_none()
 
     if editedHost == None:
         return redirect("/host?invalid_host=true")
 
+||||||| merged common ancestors
+    editedHost= session.query(Host).filter_by(id=host).one()
+=======
+
+    editedHost= session.query(Host).filter_by(id=host).one()
+
+    if editedHost == None:
+        return redirect("/host?invalid_host=true")
+
+>>>>>>> Stashed changes
     if request.method =='POST':
         print "POST"
         if request.form['hostname'] and request.form['host_alias'] and \

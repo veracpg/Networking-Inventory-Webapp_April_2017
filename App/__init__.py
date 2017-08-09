@@ -183,8 +183,6 @@ def gdisconnect():
 
 @app.route('/host/add', methods=['GET', 'POST'])
 def newHost():
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST':
         newHost = Host(hostname = request.form.get('hostname'),
                         host_alias = request.form.get('host_alias'),
@@ -212,25 +210,16 @@ def showActiveHosts():
 
 @app.route('/host/edit/<int:host>', methods=['GET', 'POST'])
 def editHost(host):
-    if 'username' not in login_session:
-        return redirect('/login')
-<<<<<<< Updated upstream
-
     editedHost= session.query(Host).filter_by(id=host).one_or_none()
 
     if editedHost == None:
         return redirect("/host?invalid_host=true")
 
-||||||| merged common ancestors
-    editedHost= session.query(Host).filter_by(id=host).one()
-=======
-
     editedHost= session.query(Host).filter_by(id=host).one()
 
     if editedHost == None:
         return redirect("/host?invalid_host=true")
 
->>>>>>> Stashed changes
     if request.method =='POST':
         print "POST"
         if request.form['hostname'] and request.form['host_alias'] and \
@@ -271,8 +260,6 @@ def showInactiveHosts():
 
 @app.route('/host/delete/<int:host>', methods=['GET', 'POST'])
 def deleteHost(host):
-    if 'username' not in login_session:
-        return redirect('/login')
     deletedhost = session.query(Host).filter_by(id=host).one()
     if request.method == 'POST':
         session.delete(deletedhost)

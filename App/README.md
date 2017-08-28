@@ -49,6 +49,19 @@ https://d17h27t6h515a5.cloudfront.net/topher/2016/December/58488015_fsnd-virtual
 
     > python __init__.py
 
+- Test the App with the following hosts:
+
+    > INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
+      VALUES ('BF-C33NL', null, 'blazingfast', '85.151.2.83', null,'linux', 'CentOS', '6.7', '22', 'root', True);
+
+    > INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
+      VALUES ('BF-C37NL', null, 'blazingfast', '85.151.2.78', null,'linux', 'CentOS', '6.7', '22', 'root', false);
+
+    > INSERT INTO host (hostname, host_alias, hostgroup, ipv4, ipv6, os, os_type, os_release, ssh_port, ssh_user, active)
+    VALUES ('BF-C4NL', null, 'blazingfast', '85.151.2.30', null, 'linux', 'CentOS', '6.7', '22', 'root', false);
+
+
+
 
 
 

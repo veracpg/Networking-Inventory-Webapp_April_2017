@@ -1,24 +1,22 @@
-
 import json
 import random
 import string
 import httplib2
 import requests
-import jinja2
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from flask import session as login_session
 from flask import make_response, jsonify
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_connector import Base, Host
+from db_connector import Base, Host, User
 
 # App Configuration
 
 CLIENT_ID = json.loads(
-    open('client_secrets.json','r').read())['web']['client_id']
+    open('client_secrets.json', 'r').read())['web']['client_id']
 
 APPLICATION_NAME = "Inventory webapp"
 
@@ -33,6 +31,7 @@ Base.metadata.create_all(engine)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 # Routes
 
 @app.route('/')
@@ -41,18 +40,22 @@ def showHome():
     # Landing Page
     return render_template('home.html')
 
+
 # JSON APIs read  NET info
 
-@app.route('/host/JSON',  methods=['GET', 'POST'])
+@app.route('/host/JSON', methods=['GET', 'POST'])
 def getNet():
+    if 'username' not in login_session:
+        return redirect(url_for('showHome'))
     # Return JSON version of the Network
     output_json = []
     rows = session.query(Host).all()
-    return jsonify (rows=[r.serialize for r in rows ])
+    return jsonify(rows=[r.serialize for r in rows])
+
 
 # Login Oauth2 Google
 
-@app.route('/login', methods=['POST','GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
@@ -60,7 +63,8 @@ def showLogin():
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
-@app.route('/gconnect', methods=['POST','GET'])
+
+@app.route('/gconnect', methods=['POST', 'GET'])
 def gconnect():
     # Validate state token
     if request.args.get('state') != login_session['state']:
@@ -132,6 +136,12 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    # Check If user exists
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
+
     output = ''
     output += '<br><h3 style = "margin-left:40%;">Welcome, '
     output += login_session['username']
@@ -141,6 +151,7 @@ def gconnect():
     output += ' " style = "width: 300px; height: 300px; margin-left:40%"><br><br> '
 
     return output
+
 
 @app.route('/gdisconnect')
 def gdisconnect():
@@ -179,55 +190,86 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-# Create a new host
 
+# User
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session['email'],
+                   picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id-user_id).one()
+    return user
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
+# Create a new host
 @app.route('/host/add', methods=['GET', 'POST'])
 def newHost():
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     if request.method == 'POST':
-        newHost = Host(hostname = request.form.get('hostname'),
-                        host_alias = request.form.get('host_alias'),
-                        hostgroup = request.form.get('hostgroup'),
-                        ipv4 = request.form.get('ipv4'),
-                        ipv6 = request.form.get('ipv6'),
-                        os = request.form.get('os'),
-                        os_type = request.form.get('os_type'),
-                        os_release = request.form.get('os_release'),
-                        ssh_port = request.form.get('ssh_port'),
-                        ssh_user = request.form.get('ssh_user'),
-                        active = request.form.get('active'))
+        newHost = Host(hostname=request.form.get('hostname'),
+                       host_alias=request.form.get('host_alias'),
+                       hostgroup=request.form.get('hostgroup'),
+                       ipv4=request.form.get('ipv4'),
+                       ipv6=request.form.get('ipv6'),
+                       os=request.form.get('os'),
+                       os_type=request.form.get('os_type'),
+                       os_release=request.form.get('os_release'),
+                       ssh_port=request.form.get('ssh_port'),
+                       ssh_user=request.form.get('ssh_user'),
+                       active=request.form.get('active'))
         session.add(newHost)
         session.commit()
         return redirect(url_for('showActiveHosts'))
     else:
         return render_template('newhost.html')
 
+
 @app.route('/host/active', methods=['GET', 'POST'])
 def showActiveHosts():
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
     # Inventory of all active hosts with Link to editHost()
-    rows = session.query(Host).filter_by(active = True).all()
-    return render_template('activehost.html',rows=rows)
+    rows = session.query(Host).filter_by(active=True).all()
+    return render_template('activehost.html', rows=rows)
 
 
 @app.route('/host/edit/<int:host>', methods=['GET', 'POST'])
 def editHost(host):
-    editedHost= session.query(Host).filter_by(id=host).one_or_none()
 
-    if editedHost == None:
+    creator = getUserInfo(host.user_id)
+
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return redirect(url_for('showActiveHosts'))
+
+    editedHost = session.query(Host).filter_by(id=host).one_or_none()
+
+    if editedHost is None:
         return redirect("/host?invalid_host=true")
 
-    editedHost= session.query(Host).filter_by(id=host).one()
+    editedHost = session.query(Host).filter_by(id=host).one()
 
-    if editedHost == None:
+    if editedHost is None:
         return redirect("/host?invalid_host=true")
 
-    if request.method =='POST':
+    if request.method == 'POST':
         print "POST"
         if request.form['hostname'] and request.form['host_alias'] and \
-            request.form['hostgroup'] and request.form['ipv4'] and \
-            request.form['ipv6'] and request.form['os'] and \
-            request.form['os_type'] and request.form['os_release'] and \
-            request.form['ssh_port'] and request.form['ssh_user'] and \
-            request.form['active']:
+                request.form['hostgroup'] and request.form['ipv4'] and \
+                request.form['ipv6'] and request.form['os'] and \
+                request.form['os_type'] and request.form['os_release'] and \
+                request.form['ssh_port'] and request.form['ssh_user'] and \
+                request.form['active']:
             print "Everything present"
             # Every row is present in the request
             editedHost.hostname = request.form['hostname']
@@ -248,25 +290,36 @@ def editHost(host):
             return redirect("/host?updated=false")
     else:
         print "GET"
-        return render_template('edithost.html', row = editedHost)
+        return render_template('edithost.html', row=editedHost)
 
 
 @app.route('/host/inactive', methods=['GET', 'POST'])
 # Inventory of all inactive hosts with link to EDIT
 def showInactiveHosts():
-    rows = session.query(Host).filter_by(active = False).all()
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
+
+    rows = session.query(Host).filter_by(active=False).all()
     return render_template('inactivehost.html', rows=rows)
 
 
 @app.route('/host/delete/<int:host>', methods=['GET', 'POST'])
 def deleteHost(host):
+    if 'username' not in login_session:
+        return redirect(url_for('showLogin'))
+
     deletedhost = session.query(Host).filter_by(id=host).one()
+    if deletedhost.user_id != login_session['user_id']:
+        return "<script> function myFunction() " \
+               "{alert ('You are not authorized to delete this host!');}</script>" \
+               "<body onload='myFunction()''>"
+
     if request.method == 'POST':
         session.delete(deletedhost)
         session.commit()
         return redirect(url_for('showHome'))
     else:
-        return render_template('deletehost.html', row = deletedhost)
+        return render_template('deletehost.html', row=deletedhost)
 
 
 if __name__ == '__main__':

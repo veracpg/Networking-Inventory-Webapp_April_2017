@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-</head>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -46,7 +45,7 @@
                 <form action="{{url_for('deleteHost', host=row.id)}}" method="post">
                 <input type="submit" value="Delete" style="font-size: 28px; background-color: red; color: white">
                 </form>
-                <a href="{{ url_for('showInactiveHosts') }}"> <input type="button" value="Cancel" style="font-size: 28px"></a></td>
+                <a href="{{ url_for('showInactiveHosts') }}"> <input type="button" value="Cancel" style="font-size: 28px"></a>
             </table>
        </div>
    </div>
